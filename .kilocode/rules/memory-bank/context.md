@@ -24,7 +24,8 @@ Full-featured employee attendance app with selfie photo check-in/out, admin pane
 - [x] Supabase schema SQL file
 - [x] Environment variables configured (.env.local)
 - [x] Fixed ImageKit env var names (added NEXT_PUBLIC_ prefix)
-- [x] Renamed middleware.ts to proxy.ts (Next.js 16 convention)
+- [x] Middleware file at root level (middleware.ts)
+- [x] Playwright test setup for login flow testing
 
 ## Environment Variables Required
 
@@ -50,3 +51,5 @@ IMAGEKIT_PRIVATE_KEY=private_lFbihruVpIUAqShFoMxJnHlNvrg=
 | Initial | Template created with base setup |
 | 2026-03-24 | Built full attendance app: selfie check-in/out, admin panel, Supabase auth+DB, ImageKit |
 | 2026-03-24 | Fixed ImageKit env var names in imagekit.ts (added NEXT_PUBLIC_ prefix) |
+| 2026-03-24 | Fixed middleware file naming (renamed proxy.ts to middleware.ts at root) |
+| 2026-03-24 | Added Playwright test setup for login flow testing |

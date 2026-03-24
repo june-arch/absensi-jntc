@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { ensureProfileExists } from "@/lib/profile-utils";
 import { UserPlus, Eye, EyeOff, Fingerprint } from "lucide-react";
 
 export default function RegisterPage() {
@@ -28,7 +29,9 @@ export default function RegisterPage() {
     setError("");
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signUp({
+    console.log("[REGISTER] Attempting sign up with:", { email: form.email, full_name: form.full_name, employee_id: form.employee_id });
+    
+    const { data, error } = await supabase.auth.signUp({
       email: form.email,
       password: form.password,
       options: {
@@ -41,9 +44,32 @@ export default function RegisterPage() {
     });
 
     if (error) {
+      console.log("[REGISTER] Sign up error:", error.message);
       setError(error.message);
       setLoading(false);
       return;
+    }
+
+    console.log("[REGISTER] Sign up successful:", data);
+    
+    // Wait a moment for the trigger to create the profile
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Ensure profile exists (create if trigger failed)
+    if (data.user) {
+      try {
+        await ensureProfileExists(data.user, {
+          full_name: form.full_name,
+          employee_id: form.employee_id,
+          role: "employee",
+        });
+        console.log("[REGISTER] Profile ensured successfully");
+      } catch (error) {
+        console.log("[REGISTER] Profile creation failed:", error);
+        setError("Registration successful but profile creation failed. Please contact support.");
+        setLoading(false);
+        return;
+      }
     }
 
     router.push("/dashboard");

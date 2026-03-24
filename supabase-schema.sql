@@ -41,6 +41,10 @@ CREATE POLICY "Admins can insert profiles" ON public.profiles
     )
   );
 
+-- NEW: Allow users to create their own profile
+CREATE POLICY "Users can create own profile" ON public.profiles
+  FOR INSERT WITH CHECK (auth.uid() = id);
+
 CREATE POLICY "Admins can update profiles" ON public.profiles
   FOR UPDATE USING (
     EXISTS (

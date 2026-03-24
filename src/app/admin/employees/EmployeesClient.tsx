@@ -20,16 +20,172 @@ interface EmployeesClientProps {
   employees: Profile[];
 }
 
-const emptyForm = {
+type FormState = {
+  full_name: string;
+  email: string;
+  password: string;
+  employee_id: string;
+  department: string;
+  position: string;
+  role: "admin" | "employee";
+  is_active: boolean;
+};
+
+const emptyForm: FormState = {
   full_name: "",
   email: "",
   password: "",
   employee_id: "",
   department: "",
   position: "",
-  role: "employee" as "admin" | "employee",
+  role: "employee",
   is_active: true,
 };
+
+function InputField({
+  label,
+  name,
+  type = "text",
+  value,
+  onChange,
+  required,
+  placeholder,
+}: {
+  label: string;
+  name: string;
+  type?: string;
+  value: string;
+  onChange: (v: string) => void;
+  required?: boolean;
+  placeholder?: string;
+}) {
+  return (
+    <div>
+      <label className="block text-gray-300 text-sm font-medium mb-1.5">{label}</label>
+      <input
+        type={type}
+        name={name}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        required={required}
+        placeholder={placeholder}
+        className="w-full bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+      />
+    </div>
+  );
+}
+
+function ModalContent({
+  form,
+  setForm,
+  error,
+  isEdit,
+}: {
+  form: FormState;
+  setForm: React.Dispatch<React.SetStateAction<FormState>>;
+  error: string;
+  isEdit?: boolean;
+}) {
+  return (
+    <div className="space-y-3">
+      {error && (
+        <div className="bg-red-500/20 border border-red-500/50 text-red-300 rounded-lg p-3 text-sm">
+          {error}
+        </div>
+      )}
+      <div className="grid grid-cols-2 gap-3">
+        <InputField
+          label="Nama Lengkap"
+          name="full_name"
+          value={form.full_name}
+          onChange={(v) => setForm((prev) => ({ ...prev, full_name: v }))}
+          required
+          placeholder="John Doe"
+        />
+        <InputField
+          label="ID Karyawan"
+          name="employee_id"
+          value={form.employee_id}
+          onChange={(v) => setForm((prev) => ({ ...prev, employee_id: v }))}
+          required
+          placeholder="EMP-001"
+        />
+      </div>
+      {!isEdit && (
+        <>
+          <InputField
+            label="Email"
+            name="email"
+            type="email"
+            value={form.email}
+            onChange={(v) => setForm((prev) => ({ ...prev, email: v }))}
+            required
+            placeholder="email@perusahaan.com"
+          />
+          <InputField
+            label="Password"
+            name="password"
+            type="password"
+            value={form.password}
+            onChange={(v) => setForm((prev) => ({ ...prev, password: v }))}
+            required
+            placeholder="Minimal 6 karakter"
+          />
+        </>
+      )}
+      <div className="grid grid-cols-2 gap-3">
+        <InputField
+          label="Departemen"
+          name="department"
+          value={form.department}
+          onChange={(v) => setForm((prev) => ({ ...prev, department: v }))}
+          placeholder="Engineering"
+        />
+        <InputField
+          label="Jabatan"
+          name="position"
+          value={form.position}
+          onChange={(v) => setForm((prev) => ({ ...prev, position: v }))}
+          placeholder="Software Engineer"
+        />
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <label className="block text-gray-300 text-sm font-medium mb-1.5">Role</label>
+          <select
+            value={form.role}
+            onChange={(e) => setForm((prev) => ({ ...prev, role: e.target.value as "admin" | "employee" }))}
+            className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+          >
+            <option value="employee">Karyawan</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        {isEdit && (
+          <div>
+            <label className="block text-gray-300 text-sm font-medium mb-1.5">Status</label>
+            <button
+              type="button"
+              onClick={() => setForm((prev) => ({ ...prev, is_active: !prev.is_active }))}
+              className={`flex items-center gap-2 w-full px-3 py-2.5 rounded-lg border text-sm font-medium transition-colors ${
+                form.is_active
+                  ? "bg-green-500/10 border-green-500/30 text-green-400"
+                  : "bg-gray-800 border-gray-700 text-gray-400"
+              }`}
+            >
+              {form.is_active ? (
+                <ToggleRight className="w-5 h-5" />
+              ) : (
+                <ToggleLeft className="w-5 h-5" />
+              )}
+              {form.is_active ? "Aktif" : "Nonaktif"}
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default function EmployeesClient({ employees: initialEmployees }: EmployeesClientProps) {
   const [employees, setEmployees] = useState<Profile[]>(initialEmployees);
@@ -137,138 +293,6 @@ export default function EmployeesClient({ employees: initialEmployees }: Employe
     }
   }
 
-  function InputField({
-    label,
-    name,
-    type = "text",
-    value,
-    onChange,
-    required,
-    placeholder,
-  }: {
-    label: string;
-    name: string;
-    type?: string;
-    value: string;
-    onChange: (v: string) => void;
-    required?: boolean;
-    placeholder?: string;
-  }) {
-    return (
-      <div>
-        <label className="block text-gray-300 text-sm font-medium mb-1.5">{label}</label>
-        <input
-          type={type}
-          name={name}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          required={required}
-          placeholder={placeholder}
-          className="w-full bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-        />
-      </div>
-    );
-  }
-
-  const ModalContent = ({ isEdit }: { isEdit?: boolean }) => (
-    <div className="space-y-3">
-      {error && (
-        <div className="bg-red-500/20 border border-red-500/50 text-red-300 rounded-lg p-3 text-sm">
-          {error}
-        </div>
-      )}
-      <div className="grid grid-cols-2 gap-3">
-        <InputField
-          label="Nama Lengkap"
-          name="full_name"
-          value={form.full_name}
-          onChange={(v) => setForm({ ...form, full_name: v })}
-          required
-          placeholder="John Doe"
-        />
-        <InputField
-          label="ID Karyawan"
-          name="employee_id"
-          value={form.employee_id}
-          onChange={(v) => setForm({ ...form, employee_id: v })}
-          required
-          placeholder="EMP-001"
-        />
-      </div>
-      {!isEdit && (
-        <>
-          <InputField
-            label="Email"
-            name="email"
-            type="email"
-            value={form.email}
-            onChange={(v) => setForm({ ...form, email: v })}
-            required
-            placeholder="email@perusahaan.com"
-          />
-          <InputField
-            label="Password"
-            name="password"
-            type="password"
-            value={form.password}
-            onChange={(v) => setForm({ ...form, password: v })}
-            required
-            placeholder="Minimal 6 karakter"
-          />
-        </>
-      )}
-      <div className="grid grid-cols-2 gap-3">
-        <InputField
-          label="Departemen"
-          name="department"
-          value={form.department}
-          onChange={(v) => setForm({ ...form, department: v })}
-          placeholder="Engineering"
-        />
-        <InputField
-          label="Jabatan"
-          name="position"
-          value={form.position}
-          onChange={(v) => setForm({ ...form, position: v })}
-          placeholder="Software Engineer"
-        />
-      </div>
-      <div className="grid grid-cols-2 gap-3">
-        <div>
-          <label className="block text-gray-300 text-sm font-medium mb-1.5">Role</label>
-          <select
-            value={form.role}
-            onChange={(e) => setForm({ ...form, role: e.target.value as "admin" | "employee" })}
-            className="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-          >
-            <option value="employee">Karyawan</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
-        {isEdit && (
-          <div>
-            <label className="block text-gray-300 text-sm font-medium mb-1.5">Status</label>
-            <button
-              type="button"
-              onClick={() => setForm({ ...form, is_active: !form.is_active })}
-              className={`flex items-center gap-2 w-full px-3 py-2.5 rounded-lg border text-sm font-medium transition-colors ${
-                form.is_active
-                  ? "bg-green-500/10 border-green-500/30 text-green-400"
-                  : "bg-gray-800 border-gray-700 text-gray-400"
-              }`}
-            >
-              {form.is_active ? (
-                <ToggleRight className="w-5 h-5" />
-              ) : (
-                <ToggleLeft className="w-5 h-5" />
-              )}
-              {form.is_active ? "Aktif" : "Nonaktif"}
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
 
   return (
     <>
@@ -416,7 +440,7 @@ export default function EmployeesClient({ employees: initialEmployees }: Employe
               </button>
             </div>
             <div className="p-6">
-              <ModalContent />
+              <ModalContent form={form} setForm={setForm} error={error} />
             </div>
             <div className="flex gap-3 px-6 pb-6">
               <button
@@ -455,7 +479,7 @@ export default function EmployeesClient({ employees: initialEmployees }: Employe
               </button>
             </div>
             <div className="p-6">
-              <ModalContent isEdit />
+              <ModalContent form={form} setForm={setForm} error={error} isEdit />
             </div>
             <div className="flex gap-3 px-6 pb-6">
               <button

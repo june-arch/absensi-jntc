@@ -20,19 +20,71 @@ export default function LoginPage() {
     setError("");
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({
+    console.log("[LOGIN] Attempting signInWithPassword...");
+    const { error, data } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
     if (error) {
+      console.log("[LOGIN] Error:", error.message);
       setError(error.message);
       setLoading(false);
       return;
     }
 
-    router.push("/dashboard");
-    router.refresh();
+    console.log("[LOGIN] Success! Session:", data.session ? "exists" : "null", "User:", data.user?.email);
+    console.log("[LOGIN] Cookies after login:", document.cookie);
+
+    // Verify session is established before redirecting
+    if (data.session && data.user) {
+      console.log("[LOGIN] Verifying session before redirect...");
+      
+      // Wait a moment for cookies to be set
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Refresh the session to ensure it's properly established
+      const { data: { session: refreshedSession }, error: refreshError } = await supabase.auth.refreshSession();
+      
+      if (refreshError) {
+        console.log("[LOGIN] Session refresh error:", refreshError.message);
+        setError("Session refresh failed. Please try again.");
+        setLoading(false);
+        return;
+      }
+      
+      if (refreshedSession) {
+        console.log("[LOGIN] Session refreshed successfully, verifying before redirect...");
+        
+        // Final verification
+        const { data: { session: verifiedSession }, error: verificationError } = await supabase.auth.getSession();
+        
+        if (verificationError) {
+          console.log("[LOGIN] Session verification error:", verificationError.message);
+          setError("Session verification failed. Please try again.");
+          setLoading(false);
+          return;
+        }
+        
+        if (verifiedSession) {
+          console.log("[LOGIN] Session verified successfully, redirecting to dashboard");
+          router.push("/dashboard");
+          router.refresh();
+        } else {
+          console.log("[LOGIN] Session verification failed - no session found after refresh");
+          setError("Login successful but session not established. Please try again.");
+          setLoading(false);
+        }
+      } else {
+        console.log("[LOGIN] Session refresh failed - no session returned");
+        setError("Login successful but session refresh failed. Please try again.");
+        setLoading(false);
+      }
+    } else {
+      console.log("[LOGIN] Login succeeded but no session data received");
+      setError("Login successful but session not established. Please try again.");
+      setLoading(false);
+    }
   }
 
   return (
