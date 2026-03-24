@@ -22,38 +22,16 @@ Full-featured employee attendance app with selfie photo check-in/out, admin pane
 - [x] Admin panel: view all attendance with filters
 - [x] Middleware for route protection
 - [x] Supabase schema SQL file
-
-## Current Structure
-
-| File/Directory | Purpose | Status |
-|----------------|---------|--------|
-| `src/app/page.tsx` | Redirects to /dashboard | ✅ Ready |
-| `src/app/login/page.tsx` | Login page | ✅ Ready |
-| `src/app/register/page.tsx` | Register page | ✅ Ready |
-| `src/app/dashboard/` | Employee dashboard | ✅ Ready |
-| `src/app/admin/employees/` | Admin: manage employees | ✅ Ready |
-| `src/app/admin/attendance/` | Admin: all attendance | ✅ Ready |
-| `src/app/api/attendance/` | Attendance API | ✅ Ready |
-| `src/app/api/employees/` | Employees CRUD API | ✅ Ready |
-| `src/app/api/upload-selfie/` | ImageKit upload API | ✅ Ready |
-| `src/components/SelfieCamera.tsx` | Webcam selfie component | ✅ Ready |
-| `src/components/Navbar.tsx` | Navigation bar | ✅ Ready |
-| `src/lib/supabase/` | Supabase client (browser/server/admin) | ✅ Ready |
-| `src/lib/imagekit.ts` | ImageKit uploader | ✅ Ready |
-| `src/types/index.ts` | TypeScript types | ✅ Ready |
-| `src/middleware.ts` | Auth route protection | ✅ Ready |
-| `supabase-schema.sql` | DB schema to run in Supabase | ✅ Ready |
-| `.env.local` | Environment variables template | ✅ Ready |
+- [x] Environment variables configured (.env.local)
 
 ## Environment Variables Required
 
 ```
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
-SUPABASE_SERVICE_ROLE_KEY=
-IMAGEKIT_PUBLIC_KEY=
-IMAGEKIT_PRIVATE_KEY=
-IMAGEKIT_URL_ENDPOINT=
+NEXT_PUBLIC_SUPABASE_URL=https://hybuhazzuvwtrfzomxcl.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_ibpj90e7JjahMmqWFKH7CQ_EjEGT1tn
+NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/jjax8ytb0
+NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY=public_s917R9UPLjQmKy63vi3YIlDquUM=
+IMAGEKIT_PRIVATE_KEY=private_lFbihruVpIUAqShFoMxJnHlNvrg=
 ```
 
 ## Setup Steps for User
