@@ -23,6 +23,8 @@ Full-featured employee attendance app with selfie photo check-in/out, admin pane
 - [x] Middleware for route protection
 - [x] Supabase schema SQL file
 - [x] Environment variables configured (.env.local)
+- [x] Fixed ImageKit env var names (added NEXT_PUBLIC_ prefix)
+- [x] Renamed middleware.ts to proxy.ts (Next.js 16 convention)
 
 ## Environment Variables Required
 
@@ -47,3 +49,4 @@ IMAGEKIT_PRIVATE_KEY=private_lFbihruVpIUAqShFoMxJnHlNvrg=
 |------|---------|
 | Initial | Template created with base setup |
 | 2026-03-24 | Built full attendance app: selfie check-in/out, admin panel, Supabase auth+DB, ImageKit |
+| 2026-03-24 | Fixed ImageKit env var names in imagekit.ts (added NEXT_PUBLIC_ prefix) |
