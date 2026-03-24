@@ -1,80 +1,80 @@
-// "use client";
+"use client";
 
-// import { useState } from "react";
-// import { useRouter } from "next/navigation";
-// import Link from "next/link";
-// import { createClient } from "@/lib/supabase/client";
-// import { ensureProfileExists } from "@/lib/profile-utils";
-// import { UserPlus, Eye, EyeOff, Fingerprint } from "lucide-react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
+import { ensureProfileExists } from "@/lib/profile-utils";
+import { UserPlus, Eye, EyeOff, Fingerprint } from "lucide-react";
 
-// export default function RegisterPage() {
-//   const router = useRouter();
-//   const [form, setForm] = useState({
-//     full_name: "",
-//     email: "",
-//     password: "",
-//     employee_id: "",
-//   });
-//   const [showPassword, setShowPassword] = useState(false);
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState("");
+export default function RegisterPage() {
+  const router = useRouter();
+  const [form, setForm] = useState({
+    full_name: "",
+    email: "",
+    password: "",
+    employee_id: "",
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-//   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-//     setForm({ ...form, [e.target.name]: e.target.value });
-//   }
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  }
 
-//   async function handleRegister(e: React.FormEvent) {
-//     e.preventDefault();
-//     setLoading(true);
-//     setError("");
+  async function handleRegister(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
 
-//     const supabase = createClient();
-//     console.log("[REGISTER] Attempting sign up with:", { email: form.email, full_name: form.full_name, employee_id: form.employee_id });
+    const supabase = createClient();
+    console.log("[REGISTER] Attempting sign up with:", { email: form.email, full_name: form.full_name, employee_id: form.employee_id });
     
-//     const { data, error } = await supabase.auth.signUp({
-//       email: form.email,
-//       password: form.password,
-//       options: {
-//         data: {
-//           full_name: form.full_name,
-//           employee_id: form.employee_id,
-//           role: "employee",
-//         },
-//       },
-//     });
+    const { data, error } = await supabase.auth.signUp({
+      email: form.email,
+      password: form.password,
+      options: {
+        data: {
+          full_name: form.full_name,
+          employee_id: form.employee_id,
+          role: "employee",
+        },
+      },
+    });
 
-//     if (error) {
-//       console.log("[REGISTER] Sign up error:", error.message);
-//       setError(error.message);
-//       setLoading(false);
-//       return;
-//     }
+    if (error) {
+      console.log("[REGISTER] Sign up error:", error.message);
+      setError(error.message);
+      setLoading(false);
+      return;
+    }
 
-//     console.log("[REGISTER] Sign up successful:", data);
+    console.log("[REGISTER] Sign up successful:", data);
     
-//     // Wait a moment for the trigger to create the profile
-//     await new Promise(resolve => setTimeout(resolve, 1000));
+    // Wait a moment for the trigger to create the profile
+    await new Promise(resolve => setTimeout(resolve, 1000));
     
-//     // Ensure profile exists (create if trigger failed)
-//     if (data.user) {
-//       try {
-//         await ensureProfileExists(data.user, {
-//           full_name: form.full_name,
-//           employee_id: form.employee_id,
-//           role: "employee",
-//         });
-//         console.log("[REGISTER] Profile ensured successfully");
-//       } catch (error) {
-//         console.log("[REGISTER] Profile creation failed:", error);
-//         setError("Registration successful but profile creation failed. Please contact support.");
-//         setLoading(false);
-//         return;
-//       }
-//     }
+    // Ensure profile exists (create if trigger failed)
+    if (data.user) {
+      try {
+        await ensureProfileExists(data.user, {
+          full_name: form.full_name,
+          employee_id: form.employee_id,
+          role: "employee",
+        });
+        console.log("[REGISTER] Profile ensured successfully");
+      } catch (error) {
+        console.log("[REGISTER] Profile creation failed:", error);
+        setError("Registration successful but profile creation failed. Please contact support.");
+        setLoading(false);
+        return;
+      }
+    }
 
-//     router.push("/dashboard");
-//     router.refresh();
-//   }
+    router.push("/dashboard");
+    router.refresh();
+  }
 
 //   return (
 //     <div className="min-h-screen bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-900 flex items-center justify-center p-4">
@@ -195,4 +195,5 @@
 //       </div>
 //     </div>
 //   );
-// }
+return <></>
+}
