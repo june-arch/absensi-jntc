@@ -2,9 +2,9 @@
 
 ## Current State
 
-**Template Status**: ✅ Ready for development
+**App Status**: ✅ Attendance App (AbsensiKu) - Fully Built
 
-The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. It's ready for AI-assisted expansion to build any type of application.
+Full-featured employee attendance app with selfie photo check-in/out, admin panel, Supabase auth & DB, ImageKit image storage.
 
 ## Recently Completed
 
@@ -14,74 +14,58 @@ The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. I
 - [x] ESLint configuration
 - [x] Memory bank documentation
 - [x] Recipe system for common features
+- [x] Supabase Auth (login/register)
+- [x] Supabase DB (profiles + attendance tables)
+- [x] ImageKit.io selfie image upload
+- [x] Employee dashboard with selfie check-in/out + history
+- [x] Admin panel: manage employees (CRUD)
+- [x] Admin panel: view all attendance with filters
+- [x] Middleware for route protection
+- [x] Supabase schema SQL file
 
 ## Current Structure
 
 | File/Directory | Purpose | Status |
 |----------------|---------|--------|
-| `src/app/page.tsx` | Home page | ✅ Ready |
-| `src/app/layout.tsx` | Root layout | ✅ Ready |
-| `src/app/globals.css` | Global styles | ✅ Ready |
-| `.kilocode/` | AI context & recipes | ✅ Ready |
+| `src/app/page.tsx` | Redirects to /dashboard | ✅ Ready |
+| `src/app/login/page.tsx` | Login page | ✅ Ready |
+| `src/app/register/page.tsx` | Register page | ✅ Ready |
+| `src/app/dashboard/` | Employee dashboard | ✅ Ready |
+| `src/app/admin/employees/` | Admin: manage employees | ✅ Ready |
+| `src/app/admin/attendance/` | Admin: all attendance | ✅ Ready |
+| `src/app/api/attendance/` | Attendance API | ✅ Ready |
+| `src/app/api/employees/` | Employees CRUD API | ✅ Ready |
+| `src/app/api/upload-selfie/` | ImageKit upload API | ✅ Ready |
+| `src/components/SelfieCamera.tsx` | Webcam selfie component | ✅ Ready |
+| `src/components/Navbar.tsx` | Navigation bar | ✅ Ready |
+| `src/lib/supabase/` | Supabase client (browser/server/admin) | ✅ Ready |
+| `src/lib/imagekit.ts` | ImageKit uploader | ✅ Ready |
+| `src/types/index.ts` | TypeScript types | ✅ Ready |
+| `src/middleware.ts` | Auth route protection | ✅ Ready |
+| `supabase-schema.sql` | DB schema to run in Supabase | ✅ Ready |
+| `.env.local` | Environment variables template | ✅ Ready |
 
-## Current Focus
+## Environment Variables Required
 
-The template is ready. Next steps depend on user requirements:
-
-1. What type of application to build
-2. What features are needed
-3. Design/branding preferences
-
-## Quick Start Guide
-
-### To add a new page:
-
-Create a file at `src/app/[route]/page.tsx`:
-```tsx
-export default function NewPage() {
-  return <div>New page content</div>;
-}
+```
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+IMAGEKIT_PUBLIC_KEY=
+IMAGEKIT_PRIVATE_KEY=
+IMAGEKIT_URL_ENDPOINT=
 ```
 
-### To add components:
+## Setup Steps for User
 
-Create `src/components/` directory and add components:
-```tsx
-// src/components/ui/Button.tsx
-export function Button({ children }: { children: React.ReactNode }) {
-  return <button className="px-4 py-2 bg-blue-600 text-white rounded">{children}</button>;
-}
-```
-
-### To add a database:
-
-Follow `.kilocode/recipes/add-database.md`
-
-### To add API routes:
-
-Create `src/app/api/[route]/route.ts`:
-```tsx
-import { NextResponse } from "next/server";
-
-export async function GET() {
-  return NextResponse.json({ message: "Hello" });
-}
-```
-
-## Available Recipes
-
-| Recipe | File | Use Case |
-|--------|------|----------|
-| Add Database | `.kilocode/recipes/add-database.md` | Data persistence with Drizzle + SQLite |
-
-## Pending Improvements
-
-- [ ] Add more recipes (auth, email, etc.)
-- [ ] Add example components
-- [ ] Add testing setup recipe
+1. Create Supabase project, run `supabase-schema.sql` in SQL editor
+2. Create ImageKit.io account
+3. Fill in `.env.local` with real credentials
+4. Create first admin user via Supabase Auth dashboard, then manually set `role = 'admin'` in profiles table
 
 ## Session History
 
 | Date | Changes |
 |------|---------|
 | Initial | Template created with base setup |
+| 2026-03-24 | Built full attendance app: selfie check-in/out, admin panel, Supabase auth+DB, ImageKit |
