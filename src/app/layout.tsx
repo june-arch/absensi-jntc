@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Next.js Template",
-  description: "A minimal Next.js starter template",
+  title: "AbsensiKu - Sistem Absensi Digital",
+  description: "Aplikasi absensi karyawan menggunakan selfie foto",
 };
 
 export default function RootLayout({
