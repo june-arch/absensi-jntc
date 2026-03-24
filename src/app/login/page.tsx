@@ -163,12 +163,12 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <p className="text-center text-blue-300 text-sm mt-6">
+          {/* <p className="text-center text-blue-300 text-sm mt-6">
             Belum punya akun?{" "}
             <Link href="/register" className="text-blue-100 hover:text-white font-medium underline">
               Daftar di sini
             </Link>
-          </p>
+          </p> */}
         </div>
       </div>
     </div>

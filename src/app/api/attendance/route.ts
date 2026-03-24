@@ -78,10 +78,10 @@ export async function POST(request: Request) {
       );
     }
 
-    // Determine status: if check_in after 9AM, mark as late
+    // Determine status: if check_in after 8AM, mark as late
     const now = new Date();
     let status: "present" | "late" = "present";
-    if (type === "check_in" && now.getHours() >= 9) {
+    if (type === "check_in" && now.getHours() >= 8) {
       status = "late";
     }
 
