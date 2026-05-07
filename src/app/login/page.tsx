@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
-import { LogIn, Eye, EyeOff, Fingerprint } from "lucide-react";
+import { LogIn, Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -92,8 +93,14 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-500 rounded-2xl mb-4 shadow-lg shadow-blue-500/30">
-            <Fingerprint className="w-8 h-8 text-white" />
+          <div className="inline-flex items-center justify-center w-16 h-16 mb-4">
+            <Image
+              src="/logo.png"
+              alt="AbsensiKu Logo"
+              width={64}
+              height={64}
+              className="object-contain"
+            />
           </div>
           <h1 className="text-3xl font-bold text-white">AbsensiKu</h1>
           <p className="text-blue-300 mt-1">Sistem Absensi Digital</p>
