@@ -13,15 +13,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://absensi-jntc.vercel.app"),
   title: "AbsensiKu - Sistem Absensi Digital",
   description: "Aplikasi absensi karyawan menggunakan selfie foto",
   icons: {
     icon: "/favicon.ico",
   },
-  apple_web_app: {
+  appleWebApp: {
     capable: true,
     title: "AbsensiKu",
-    startup_image: [
+    startupImage: [
       {
         url: "/apple-touch-icon.png",
         media: "(device-width: 768px) and (device-height: 1024px)",
