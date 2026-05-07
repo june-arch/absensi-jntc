@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { Fingerprint, LogOut, User, LayoutDashboard, Users, ClipboardList } from "lucide-react";
+import { LogOut, User, LayoutDashboard, Users, ClipboardList } from "lucide-react";
 import type { Profile } from "@/types";
 
 interface NavbarProps {
@@ -37,9 +38,13 @@ export default function Navbar({ profile }: NavbarProps) {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/dashboard" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-              <Fingerprint className="w-5 h-5 text-white" />
-            </div>
+            <Image
+              src="/logo.png"
+              alt="AbsensiKu Logo"
+              width={32}
+              height={32}
+              className="w-8 h-8 rounded-lg object-contain"
+            />
             <span className="text-white font-bold text-lg">AbsensiKu</span>
           </Link>
 
